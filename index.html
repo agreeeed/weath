@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Weath - Weather Forecast</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div id="app">
+		<section>
+			<header>
+				<h1>Weath</h1>
+				<p style="color: #ccc;">Current weather, 5 day forecast</p>
+			</header>
+			<div id="search-field">
+				<input type="text" id="cityq" placeholder="Oregon">
+			</div>
+			<div id="current-weather">
+				<p id="city"></p>
+				<div id="meta">
+					<h2 id="temp"></h2>
+					<p id="weather"></p>
+				</div>
+				<p id="feelslike"></p>
+				<p id="humidity"></p>
+			</div>
+			<hr>
+			<div id="forecast-five-days">
+				
+			</div>
+		</section>
+		<footer>
+			<p>code by <a href="http://magabee.rf.gd">magabee</a></p>
+			<p>powered by <a href="https://openweathermap.org">openweathermap</a></p>
+		</footer>
+	</div>
+<script>
+	const cityq = document.getElementById('cityq');
+
+	const ffd = document.getElementById('forecast-five-days');
+
+	const city = document.getElementById('city');
+	const temp = document.getElementById('temp');
+	const weather = document.getElementById('weather');
+	const feelslike = document.getElementById('feelslike');
+	const humidity = document.getElementById('humidity');
+	const pressure = document.getElementById('pressure');
+
+	cityq.addEventListener('keypress', (e) => {
+		if(e.key == 'Enter'){
+			getWeatherForCity(cityq.value);
+			getForecastFiveDays(cityq.value);
+		}
+	});
+
+	function getWeatherForCity(location){
+		const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=9466410c393f1e4b1cd4e02bf5afa611&units=metric`;
+		fetch(url).then(res => res.json())
+		.then(data => {
+			let rain;
+			const wt = data.weather[0];
+
+			if(data.cod == '200'){
+
+				if(data.rain != undefined){
+					rain = data.rain['1h'];
+				}
+
+				const clouds = data.clouds.all;
+
+				city.innerHTML = `${data.name}, ${data.sys.country}`;
+				temp.innerHTML = `${Math.round(data.main.temp)}° C`;
+
+				if(rain != undefined){
+					weather.innerHTML = `<img src="http://openweathermap.org/img/wn/${wt.icon}.png"> ${wt.description} ${rain * 100}% `;
+				}
+				else{
+					weather.innerHTML = `<img src="http://openweathermap.org/img/wn/${wt.icon}.png"> ${wt.description}`;
+				}
+
+				feelslike.innerHTML = `Feels like ${Math.round(data.main.feels_like)}° C`;
+				humidity.innerHTML = `Humidity: ${Math.round(data.main.humidity)}%`;
+			}
+
+			else{
+				city.innerHTML = data.message;
+			}
+		});
+	}
+	
+	function getForecastFiveDays(location){
+		ffd.innerHTML = '';
+		const url = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=9466410c393f1e4b1cd4e02bf5afa611&units=metric`;
+		fetch(url).then(res => res.json())
+		.then(data => {
+			for(let i = 0; i < data.list.length; i++){
+				if(data.list[i].dt_txt.slice(11) == '15:00:00'){
+					const wd = document.createElement('div');
+					wd.classList = 'forecast';
+					ffd.appendChild(wd);
+
+					const date = document.createElement('small');
+					const temp = document.createElement('h3');
+					const icon = document.createElement('img');
+
+					date.innerHTML = `${data.list[i].dt_txt.substring(5, 10)}`;
+					temp.innerHTML = `${Math.round(data.list[i].main.temp)}° C`
+					icon.src = `http://openweathermap.org/img/wn/${data.list[i].weather[0].icon}.png`;
+
+					wd.appendChild(date);
+					wd.appendChild(temp);
+					wd.appendChild(icon);
+				}
+			}
+		});
+	}
+</script>
+</body>
+</html>

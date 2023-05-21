@@ -1,0 +1,109 @@
+*{
+	margin: 0;
+	box-sizing: border-box;
+	line-height: 1.5;
+	font-weight: 400;
+}
+
+body{
+	height: 100vh;
+	background-color: #111;
+	background-image: url('bg.jpg');
+	background-size: cover;
+	color: #eee;
+	font-family: 'Inter', sans-serif;
+}
+
+#app{
+	text-align: center;
+	width: 600px;
+	margin: 0 auto;
+	max-width: 95%;
+	height: 100%;
+}
+
+a{
+	color: #5F9DF7;
+	text-decoration: none;
+}
+
+section{
+	min-height: 90%;
+}
+
+footer{
+	min-height: 10%;
+	font-size: 14px;
+	color: #ccc;
+}
+
+header{
+	padding: 1.5rem 0;
+}
+
+#search-field, #current-weather{
+	margin: 1rem 0;
+}
+
+#current-weather{
+	color: #ccc;
+}
+
+input{
+	font-family: inherit;
+	font-size: 16px;
+	padding: 8px 16px;
+	border: 2px solid #A8E890;
+	border-radius: 4px 8px;
+	outline: none;
+	color: inherit;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+input:focus{
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+#meta{
+	margin: 1rem 0;
+}
+
+#temp{
+	font-size: 36px;
+	color: #eee;
+}
+
+#weather{
+	color: #ddd;
+	text-transform: capitalize;
+}
+
+img{
+	vertical-align: middle;
+}
+
+#forecast-five-days{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-top: 1.5rem;
+	gap: 10px;
+}
+
+hr{
+	width: 100%;
+	border: none;
+	height: 1px;
+	background-color: #aaa;
+}
+
+.forecast{
+	border-radius: 8px;
+	padding: 6px 10px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+small{
+	display: block;
+	color: #ccc;
+}
